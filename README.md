@@ -51,6 +51,10 @@ The repository includes both the Markdown handbook and a formatted Word edition:
 - [ ] Module 12: orchestration concepts
 - [ ] Module 13: capstones and final practical exam
 
+## Projects
+
+- [Unix Username Generator](projects/unix-username-generator/) — a containerized Nginx web app that creates lowercase Unix-style usernames and copies them to the clipboard.
+
 ## License
 
 Educational lab material. Add a formal license before accepting external contributions or reuse.
