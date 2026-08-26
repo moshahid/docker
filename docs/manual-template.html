@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="$lang$">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Hands-on Docker labs from basic container operations to expert administration.">
+  <title>$title$</title>
+  <link rel="stylesheet" href="manual.css">
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><span class="brand-mark">D</span><div><strong>Docker Lab</strong><small>Basic to Expert</small></div></div>
+    <label class="search-label" for="manual-search">Search the manual</label>
+    <input id="manual-search" type="search" placeholder="Search labs and commands…" autocomplete="off">
+    <div id="search-status" aria-live="polite"></div>
+    <nav id="TOC" aria-label="Manual chapters">$table-of-contents$</nav>
+  </aside>
+  <button class="menu-button" id="menu-button" type="button" aria-controls="sidebar" aria-expanded="false">☰ Chapters</button>
+  <main class="manual" id="manual">
+    <header class="hero">
+      <p class="eyebrow">Hands-on learning path</p>
+      <h1>$title$</h1>
+      <p>Run each lab in sequence, verify the pass checks, and progress from your first container to expert Docker operations.</p>
+    </header>
+    <article id="manual-content">$body$</article>
+  </main>
+  <button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top">↑</button>
+  <script src="manual.js"></script>
+</body>
+</html>
