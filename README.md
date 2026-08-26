@@ -12,7 +12,7 @@ A hands-on Docker learning path from first container to advanced operations, des
 
 ## Start here
 
-1. Open [DOCKER-LAB-PRACTICE-MANUAL.md](DOCKER-LAB-PRACTICE-MANUAL.md).
+1. Open the [interactive HTML manual](docs/Docker_Lab_Practice_Manual_Basic_to_Expert.html) or the [Markdown manual](DOCKER-LAB-PRACTICE-MANUAL.md).
 2. Confirm the prerequisites and take the recommended VirtualBox snapshot.
 3. Begin with Module 1 and run each command block individually.
 4. Complete each **Pass Check** before moving to the next lab.
@@ -27,8 +27,9 @@ A hands-on Docker learning path from first container to advanced operations, des
 | Operator | 8–10 | Troubleshooting, health checks, resource controls, security, daemon operations |
 | Expert | 11–13 | Registries, BuildKit, remote contexts, Swarm, capstone projects |
 
-The repository includes both the Markdown handbook and a formatted Word edition:
+The repository includes browser, Markdown, and Word editions:
 
+- [Docker lab manual — Interactive HTML](docs/Docker_Lab_Practice_Manual_Basic_to_Expert.html)
 - [Docker lab manual — Markdown](DOCKER-LAB-PRACTICE-MANUAL.md)
 - [Docker lab manual — Word](docs/Docker_Lab_Practice_Manual_Basic_to_Expert.docx)
 
