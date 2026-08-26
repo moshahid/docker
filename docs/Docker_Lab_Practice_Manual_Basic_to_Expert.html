@@ -1,0 +1,2999 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Hands-on Docker labs from basic container operations to expert administration.">
+  <title>Docker Lab Practice Manual: Basic to Expert</title>
+  <link rel="stylesheet" href="manual.css">
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><span class="brand-mark">D</span><div><strong>Docker Lab</strong><small>Basic to Expert</small></div></div>
+    <label class="search-label" for="manual-search">Search the manual</label>
+    <input id="manual-search" type="search" placeholder="Search labs and commands…" autocomplete="off">
+    <div id="search-status" aria-live="polite"></div>
+    <nav id="TOC" aria-label="Manual chapters"><ul>
+<li><a href="#how-to-use-this-manual"
+id="toc-how-to-use-this-manual">How to use this manual</a>
+<ul>
+<li><a href="#your-lab-baseline" id="toc-your-lab-baseline">Your lab
+baseline</a></li>
+</ul></li>
+<li><a href="#module-1--foundations-images-and-containers"
+id="toc-module-1--foundations-images-and-containers">Module 1 —
+Foundations: images and containers</a>
+<ul>
+<li><a href="#lab-11--verify-the-docker-platform"
+id="toc-lab-11--verify-the-docker-platform">Lab 1.1 — Verify the Docker
+platform</a></li>
+<li><a href="#lab-12--container-lifecycle"
+id="toc-lab-12--container-lifecycle">Lab 1.2 — Container
+lifecycle</a></li>
+<li><a href="#lab-13--create-versus-run"
+id="toc-lab-13--create-versus-run">Lab 1.3 — Create versus run</a></li>
+</ul></li>
+<li><a href="#module-2--inspection-processes-logs-and-commands"
+id="toc-module-2--inspection-processes-logs-and-commands">Module 2 —
+Inspection, processes, logs, and commands</a>
+<ul>
+<li><a href="#lab-21--logs-and-interactive-access"
+id="toc-lab-21--logs-and-interactive-access">Lab 2.1 — Logs and
+interactive access</a></li>
+<li><a href="#lab-22--environment-variables-and-command-overrides"
+id="toc-lab-22--environment-variables-and-command-overrides">Lab 2.2 —
+Environment variables and command overrides</a></li>
+<li><a href="#lab-23--inspect-and-format-output"
+id="toc-lab-23--inspect-and-format-output">Lab 2.3 — Inspect and format
+output</a></li>
+</ul></li>
+<li><a href="#module-3--images-tags-layers-and-cleanup"
+id="toc-module-3--images-tags-layers-and-cleanup">Module 3 — Images,
+tags, layers, and cleanup</a>
+<ul>
+<li><a href="#lab-31--images-and-immutable-layers"
+id="toc-lab-31--images-and-immutable-layers">Lab 3.1 — Images and
+immutable layers</a></li>
+<li><a href="#lab-32--container-writable-layer"
+id="toc-lab-32--container-writable-layer">Lab 3.2 — Container writable
+layer</a></li>
+<li><a href="#lab-33--safe-cleanup" id="toc-lab-33--safe-cleanup">Lab
+3.3 — Safe cleanup</a></li>
+</ul></li>
+<li><a href="#module-4--persistent-storage"
+id="toc-module-4--persistent-storage">Module 4 — Persistent storage</a>
+<ul>
+<li><a href="#lab-41--named-volumes" id="toc-lab-41--named-volumes">Lab
+4.1 — Named volumes</a></li>
+<li><a href="#lab-42--bind-mounts-and-live-web-content"
+id="toc-lab-42--bind-mounts-and-live-web-content">Lab 4.2 — Bind mounts
+and live web content</a></li>
+<li><a href="#lab-43--backup-and-restore-a-volume"
+id="toc-lab-43--backup-and-restore-a-volume">Lab 4.3 — Backup and
+restore a volume</a></li>
+</ul></li>
+<li><a href="#module-5--container-networking"
+id="toc-module-5--container-networking">Module 5 — Container
+networking</a>
+<ul>
+<li><a href="#lab-51--default-bridge-versus-user-defined-bridge"
+id="toc-lab-51--default-bridge-versus-user-defined-bridge">Lab 5.1 —
+Default bridge versus user-defined bridge</a></li>
+<li><a href="#lab-52--port-publishing-and-address-binding"
+id="toc-lab-52--port-publishing-and-address-binding">Lab 5.2 — Port
+publishing and address binding</a></li>
+<li><a href="#lab-53--custom-subnet-and-static-container-address"
+id="toc-lab-53--custom-subnet-and-static-container-address">Lab 5.3 —
+Custom subnet and static container address</a></li>
+</ul></li>
+<li><a href="#module-6--dockerfiles-and-image-builds"
+id="toc-module-6--dockerfiles-and-image-builds">Module 6 — Dockerfiles
+and image builds</a>
+<ul>
+<li><a href="#lab-61--build-a-custom-static-website-image"
+id="toc-lab-61--build-a-custom-static-website-image">Lab 6.1 — Build a
+custom static website image</a></li>
+<li><a href="#lab-62--build-cache-and-dockerignore"
+id="toc-lab-62--build-cache-and-dockerignore">Lab 6.2 — Build cache and
+.dockerignore</a></li>
+<li><a href="#lab-63--run-as-a-non-root-user"
+id="toc-lab-63--run-as-a-non-root-user">Lab 6.3 — Run as a non-root
+user</a></li>
+<li><a href="#lab-64--multi-stage-build"
+id="toc-lab-64--multi-stage-build">Lab 6.4 — Multi-stage build</a></li>
+</ul></li>
+<li><a href="#module-7--docker-compose"
+id="toc-module-7--docker-compose">Module 7 — Docker Compose</a>
+<ul>
+<li><a href="#lab-71--convert-nginx-to-compose"
+id="toc-lab-71--convert-nginx-to-compose">Lab 7.1 — Convert Nginx to
+Compose</a></li>
+<li><a href="#lab-72--multi-container-application-with-database"
+id="toc-lab-72--multi-container-application-with-database">Lab 7.2 —
+Multi-container application with database</a></li>
+<li><a href="#lab-73--compose-overrides-profiles-and-scaling"
+id="toc-lab-73--compose-overrides-profiles-and-scaling">Lab 7.3 —
+Compose overrides, profiles, and scaling</a></li>
+</ul></li>
+<li><a href="#module-8--operations-and-troubleshooting"
+id="toc-module-8--operations-and-troubleshooting">Module 8 — Operations
+and troubleshooting</a>
+<ul>
+<li><a href="#lab-81--events-stats-and-process-troubleshooting"
+id="toc-lab-81--events-stats-and-process-troubleshooting">Lab 8.1 —
+Events, stats, and process troubleshooting</a></li>
+<li><a href="#lab-82--health-checks" id="toc-lab-82--health-checks">Lab
+8.2 — Health checks</a></li>
+<li><a href="#lab-83--resource-limits-and-oom-behavior"
+id="toc-lab-83--resource-limits-and-oom-behavior">Lab 8.3 — Resource
+limits and OOM behavior</a></li>
+<li><a href="#lab-84--a-repeatable-troubleshooting-workflow"
+id="toc-lab-84--a-repeatable-troubleshooting-workflow">Lab 8.4 — A
+repeatable troubleshooting workflow</a></li>
+</ul></li>
+<li><a href="#module-9--security-hardening"
+id="toc-module-9--security-hardening">Module 9 — Security hardening</a>
+<ul>
+<li><a href="#lab-91--capabilities-read-only-filesystems-and-tmpfs"
+id="toc-lab-91--capabilities-read-only-filesystems-and-tmpfs">Lab 9.1 —
+Capabilities, read-only filesystems, and tmpfs</a></li>
+<li><a href="#lab-92--secrets-without-baking-them-into-images"
+id="toc-lab-92--secrets-without-baking-them-into-images">Lab 9.2 —
+Secrets without baking them into images</a></li>
+<li><a href="#lab-93--docker-socket-risk"
+id="toc-lab-93--docker-socket-risk">Lab 9.3 — Docker socket
+risk</a></li>
+</ul></li>
+<li><a href="#module-10--daemon-administration-and-reliability"
+id="toc-module-10--daemon-administration-and-reliability">Module 10 —
+Daemon administration and reliability</a>
+<ul>
+<li><a href="#lab-101--configure-bounded-local-logs"
+id="toc-lab-101--configure-bounded-local-logs">Lab 10.1 — Configure
+bounded local logs</a></li>
+<li><a href="#lab-102--restart-policies-and-daemon-restart"
+id="toc-lab-102--restart-policies-and-daemon-restart">Lab 10.2 — Restart
+policies and daemon restart</a></li>
+<li><a href="#lab-103--diagnose-daemon-failures"
+id="toc-lab-103--diagnose-daemon-failures">Lab 10.3 — Diagnose daemon
+failures</a></li>
+</ul></li>
+<li><a href="#module-11--registries-buildkit-and-remote-administration"
+id="toc-module-11--registries-buildkit-and-remote-administration">Module
+11 — Registries, BuildKit, and remote administration</a>
+<ul>
+<li><a href="#lab-111--run-a-private-local-registry"
+id="toc-lab-111--run-a-private-local-registry">Lab 11.1 — Run a private
+local registry</a></li>
+<li><a href="#lab-112--buildkit-targets-and-build-arguments"
+id="toc-lab-112--buildkit-targets-and-build-arguments">Lab 11.2 —
+BuildKit targets and build arguments</a></li>
+<li><a href="#lab-113--manage-the-vm-with-a-docker-ssh-context"
+id="toc-lab-113--manage-the-vm-with-a-docker-ssh-context">Lab 11.3 —
+Manage the VM with a Docker SSH context</a></li>
+</ul></li>
+<li><a href="#module-12--orchestration-concepts-with-swarm"
+id="toc-module-12--orchestration-concepts-with-swarm">Module 12 —
+Orchestration concepts with Swarm</a>
+<ul>
+<li><a href="#lab-121--single-node-swarm-services"
+id="toc-lab-121--single-node-swarm-services">Lab 12.1 — Single-node
+Swarm services</a></li>
+<li><a href="#lab-122--swarm-secrets-and-configs"
+id="toc-lab-122--swarm-secrets-and-configs">Lab 12.2 — Swarm secrets and
+configs</a></li>
+</ul></li>
+<li><a href="#module-13--capstone-projects"
+id="toc-module-13--capstone-projects">Module 13 — Capstone projects</a>
+<ul>
+<li><a href="#capstone-a--production-style-web-stack"
+id="toc-capstone-a--production-style-web-stack">Capstone A —
+Production-style web stack</a></li>
+<li><a href="#capstone-b--local-build-and-registry-pipeline"
+id="toc-capstone-b--local-build-and-registry-pipeline">Capstone B —
+Local build and registry pipeline</a></li>
+<li><a href="#capstone-c--docker-operations-incident"
+id="toc-capstone-c--docker-operations-incident">Capstone C — Docker
+operations incident</a></li>
+</ul></li>
+<li><a href="#final-practical-exam" id="toc-final-practical-exam">Final
+practical exam</a></li>
+<li><a href="#command-reference" id="toc-command-reference">Command
+reference</a></li>
+<li><a href="#troubleshooting-decision-path"
+id="toc-troubleshooting-decision-path">Troubleshooting decision
+path</a></li>
+<li><a href="#recommended-study-schedule"
+id="toc-recommended-study-schedule">Recommended study schedule</a></li>
+</ul></nav>
+  </aside>
+  <button class="menu-button" id="menu-button" type="button" aria-controls="sidebar" aria-expanded="false">☰ Chapters</button>
+  <main class="manual" id="manual">
+    <header class="hero">
+      <p class="eyebrow">Hands-on learning path</p>
+      <h1>Docker Lab Practice Manual: Basic to Expert</h1>
+      <p>Run each lab in sequence, verify the pass checks, and progress from your first container to expert Docker operations.</p>
+    </header>
+    <article id="manual-content"><p><strong>DOCKER LAB PRACTICE
+MANUAL</strong></p>
+<p><strong>Basic to Expert</strong></p>
+<p>Hands-on exercises for Ubuntu in VirtualBox<br />
+Docker Engine 29 • Docker Compose v2 • Linux amd64</p>
+<p>Lab host: Test-VirtualBox | SSH: 192.168.56.10 | User: moshahid</p>
+<h1 id="how-to-use-this-manual">How to use this manual</h1>
+<table>
+<thead>
+<tr class="header">
+<th><strong>LAB RULE</strong> Run commands one block at a time. Read the
+output before continuing. Commands that open an interactive shell, such
+as docker exec -it, pause the host shell until you type exit.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Stage</strong></th>
+<th><strong>Modules</strong></th>
+<th><strong>Target capability</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Foundation</td>
+<td>1–3</td>
+<td>Run, inspect, stop, restart, and remove containers</td>
+</tr>
+<tr class="even">
+<td>Builder</td>
+<td>4–7</td>
+<td>Use storage, networks, Dockerfiles, BuildKit, and Compose</td>
+</tr>
+<tr class="odd">
+<td>Operator</td>
+<td>8–10</td>
+<td>Troubleshoot, monitor, secure, and maintain Docker</td>
+</tr>
+<tr class="even">
+<td>Expert</td>
+<td>11–13</td>
+<td>Registries, remote contexts, advanced builds, orchestration,
+capstones</td>
+</tr>
+</tbody>
+</table>
+<h2 id="your-lab-baseline">Your lab baseline</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Component</strong></th>
+<th><strong>Value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Guest OS</td>
+<td>Ubuntu 25.10 (Questing), x86_64</td>
+</tr>
+<tr class="even">
+<td>Virtualization</td>
+<td>VirtualBox with Guest Additions</td>
+</tr>
+<tr class="odd">
+<td>Adapter 1</td>
+<td>NAT for internet access</td>
+</tr>
+<tr class="even">
+<td>Adapter 2</td>
+<td>Host-only, static 192.168.56.10/24</td>
+</tr>
+<tr class="odd">
+<td>Windows host</td>
+<td>192.168.56.1</td>
+</tr>
+<tr class="even">
+<td>Docker</td>
+<td>Ubuntu docker.io package, Engine 29.1.3</td>
+</tr>
+<tr class="odd">
+<td>Compose</td>
+<td>Docker Compose v2.40.3</td>
+</tr>
+<tr class="even">
+<td>TLS inspection</td>
+<td>Fortinet CA installed in Ubuntu trust store</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th><strong>SNAPSHOT</strong> Before Module 1, take a VirtualBox
+snapshot named docker-baseline. This gives you a clean recovery
+point.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<h1 id="module-1--foundations-images-and-containers">Module 1 —
+Foundations: images and containers</h1>
+<h2 id="lab-11--verify-the-docker-platform">Lab 1.1 — Verify the Docker
+platform</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Basic</td>
+<td>15 min</td>
+<td>Prove the client, daemon, runtime, networking, and registry path
+work.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> daemon, client, Unix socket, containerd,
+runc, registry</p>
+<p><strong>Step 1 —</strong> Capture versions and service health.</p>
+<blockquote>
+<p>docker version<br />
+docker compose version<br />
+systemctl is-active docker<br />
+systemctl is-enabled docker</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Inspect the host-facing Docker summary.</p>
+<blockquote>
+<p>docker info</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Run the disposable test image.</p>
+<blockquote>
+<p>docker run --rm hello-world</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Observe that --rm leaves no stopped
+container.</p>
+<blockquote>
+<p>docker ps<br />
+docker ps -a</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> docker version shows both Client and
+Server; hello-world completes; docker ps -a contains no hello-world
+container.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th><strong>STRETCH</strong> Identify which output lines correspond to
+the client, daemon, containerd, and runc.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<h2 id="lab-12--container-lifecycle">Lab 1.2 — Container lifecycle</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Basic</td>
+<td>25 min</td>
+<td>Create and manage a long-running Nginx container.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> create, start, stop, restart, status, port
+publishing</p>
+<p><strong>Step 1 —</strong> Create the container and publish host port
+8080 to container port 80.</p>
+<blockquote>
+<p>docker run -d --name nginx-lab --restart unless-stopped -p 8080:80
+nginx:alpine</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Inspect running containers and test
+locally.</p>
+<blockquote>
+<p>docker ps<br />
+curl http://localhost:8080</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Test from Windows.</p>
+<p><strong>Step 4 —</strong> Stop it, observe the Exited state, then
+start it.</p>
+<blockquote>
+<p>docker stop nginx-lab<br />
+docker ps -a<br />
+docker start nginx-lab<br />
+docker ps</p>
+</blockquote>
+<p><strong>Step 5 —</strong> Restart and inspect its restart count.</p>
+<blockquote>
+<p>docker restart nginx-lab<br />
+docker inspect -f '{{.RestartCount}}' nginx-lab</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> Windows can open <a
+href="http://192.168.56.10:8080">http://192.168.56.10:8080</a> and
+docker ps reports nginx-lab as Up.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker rm -f nginx-lab</p>
+</blockquote>
+<h2 id="lab-13--create-versus-run">Lab 1.3 — Create versus run</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Basic</td>
+<td>20 min</td>
+<td>Separate container creation from process startup.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> docker create, docker start, attach,
+foreground versus detached</p>
+<p><strong>Step 1 —</strong> Create a container without starting it.</p>
+<blockquote>
+<p>docker create --name sleeper alpine:latest sleep 300</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Confirm its Created state.</p>
+<blockquote>
+<p>docker ps -a --filter name=sleeper</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Start and inspect it.</p>
+<blockquote>
+<p>docker start sleeper<br />
+docker top sleeper<br />
+docker inspect -f '{{.State.Status}} PID={{.State.Pid}}' sleeper</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Stop with a short grace period.</p>
+<blockquote>
+<p>docker stop -t 2 sleeper</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> The state transitions Created → Running
+→ Exited.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker rm sleeper</p>
+</blockquote>
+<h1 id="module-2--inspection-processes-logs-and-commands">Module 2 —
+Inspection, processes, logs, and commands</h1>
+<h2 id="lab-21--logs-and-interactive-access">Lab 2.1 — Logs and
+interactive access</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Basic</td>
+<td>25 min</td>
+<td>Inspect application output and enter a running container
+safely.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> stdout/stderr, logs, exec, PID 1, exit</p>
+<p><strong>Step 1 —</strong> Start Nginx.</p>
+<blockquote>
+<p>docker run -d --name inspect-web -p 8081:80 nginx:alpine</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Generate traffic and read timestamps.</p>
+<blockquote>
+<p>curl http://localhost:8081 &gt;/dev/null<br />
+docker logs --timestamps --tail 20 inspect-web</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Inspect processes from the host.</p>
+<blockquote>
+<p>docker top inspect-web</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Enter the container. Run only the commands
+shown, then type exit.</p>
+<blockquote>
+<p>docker exec -it inspect-web sh</p>
+</blockquote>
+<p><strong>Step 5 —</strong> Inside the container, inspect the OS and
+process list.</p>
+<blockquote>
+<p>cat /etc/alpine-release<br />
+ps<br />
+ls -la /usr/share/nginx/html<br />
+exit</p>
+</blockquote>
+<p><strong>Step 6 —</strong> Run a noninteractive command.</p>
+<blockquote>
+<p>docker exec inspect-web nginx -t</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> nginx -t reports syntax is ok and
+successful; the host prompt returns after exit.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker rm -f inspect-web</p>
+</blockquote>
+<h2 id="lab-22--environment-variables-and-command-overrides">Lab 2.2 —
+Environment variables and command overrides</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Basic</td>
+<td>20 min</td>
+<td>Control container behavior at runtime.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> environment, ENTRYPOINT, CMD, command
+override</p>
+<p><strong>Step 1 —</strong> Pass environment variables.</p>
+<blockquote>
+<p>docker run --rm -e LAB_NAME=docker101 -e OWNER=moshahid alpine env |
+sort</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Override the image default command.</p>
+<blockquote>
+<p>docker run --rm alpine sh -c 'echo Host=$(hostname); echo
+Kernel=$(uname -r)'</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Inspect image defaults.</p>
+<blockquote>
+<p>docker image inspect alpine --format 'Entrypoint={{json
+.Config.Entrypoint}} Cmd={{json .Config.Cmd}}'</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> LAB_NAME and OWNER appear; the command
+override prints a container hostname and kernel.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th><strong>STRETCH</strong> Explain why the container kernel matches
+the host kernel family even though its user space is Alpine.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<h2 id="lab-23--inspect-and-format-output">Lab 2.3 — Inspect and format
+output</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Basic</td>
+<td>25 min</td>
+<td>Extract useful metadata without reading large JSON documents.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> inspect JSON, Go templates, filters,
+formatting</p>
+<p><strong>Step 1 —</strong> Create a labeled container.</p>
+<blockquote>
+<p>docker run -d --name meta-web --label purpose=training --label
+owner=moshahid -p 8082:80 nginx:alpine</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Extract its IP, image, restart policy, and
+labels.</p>
+<blockquote>
+<p>docker inspect -f 'IP={{range
+.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' meta-web<br />
+docker inspect -f 'Image={{.Config.Image}}
+Restart={{.HostConfig.RestartPolicy.Name}}' meta-web<br />
+docker inspect -f '{{json .Config.Labels}}' meta-web</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Use filters.</p>
+<blockquote>
+<p>docker ps --filter label=purpose=training --format 'table
+{{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}'</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> The filtered table contains only
+meta-web and exposes host port 8082.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker rm -f meta-web</p>
+</blockquote>
+<h1 id="module-3--images-tags-layers-and-cleanup">Module 3 — Images,
+tags, layers, and cleanup</h1>
+<h2 id="lab-31--images-and-immutable-layers">Lab 3.1 — Images and
+immutable layers</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Basic</td>
+<td>30 min</td>
+<td>Understand image identity, tags, digests, history, and layer
+reuse.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> image, tag, digest, layer, content
+addressability</p>
+<p><strong>Step 1 —</strong> Pull and inspect two tags.</p>
+<blockquote>
+<p>docker pull alpine:3.21<br />
+docker pull alpine:latest<br />
+docker images alpine</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Inspect history and RepoDigests.</p>
+<blockquote>
+<p>docker history alpine:3.21<br />
+docker image inspect alpine:3.21 --format '{{json .RepoDigests}}'</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Create a local alias.</p>
+<blockquote>
+<p>docker tag alpine:3.21 local/alpine:lab<br />
+docker images local/alpine</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Remove only the alias.</p>
+<blockquote>
+<p>docker rmi local/alpine:lab</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> Removing the alias does not necessarily
+delete shared layers used by alpine:3.21.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th><strong>STRETCH</strong> Compare IMAGE IDs for alpine:3.21 and
+alpine:latest. Record whether they point to the same content.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<h2 id="lab-32--container-writable-layer">Lab 3.2 — Container writable
+layer</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Intermediate</td>
+<td>25 min</td>
+<td>Observe data that exists only inside a container.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> copy-on-write, writable layer, docker
+diff, commit anti-pattern</p>
+<table>
+<thead>
+<tr class="header">
+<th><strong>CAUTION</strong> Do not use docker commit as your normal
+build workflow. Reproducible images come from Dockerfiles.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Step 1 —</strong> Create an Alpine container and write a
+file.</p>
+<blockquote>
+<p>docker run -d --name layer-lab alpine sleep 600<br />
+docker exec layer-lab sh -c 'echo temporary-data &gt; /lab.txt'</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Show filesystem changes.</p>
+<blockquote>
+<p>docker diff layer-lab<br />
+docker exec layer-lab cat /lab.txt</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Delete and recreate the container.</p>
+<blockquote>
+<p>docker rm -f layer-lab<br />
+docker run -d --name layer-lab alpine sleep 600</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Prove the file is gone.</p>
+<blockquote>
+<p>docker exec layer-lab sh -c 'test ! -e /lab.txt &amp;&amp; echo
+file-is-gone'</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> The recreated container prints
+file-is-gone.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker rm -f layer-lab</p>
+</blockquote>
+<h2 id="lab-33--safe-cleanup">Lab 3.3 — Safe cleanup</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Intermediate</td>
+<td>20 min</td>
+<td>Measure and reclaim unused Docker objects deliberately.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> disk usage, dangling objects, prune
+safety</p>
+<table>
+<thead>
+<tr class="header">
+<th><strong>CAUTION</strong> Do not use docker system prune -a --volumes
+casually. It can remove cached images and unused volumes containing lab
+data.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Step 1 —</strong> Review usage before changing anything.</p>
+<blockquote>
+<p>docker system df -v</p>
+</blockquote>
+<p><strong>Step 2 —</strong> List stopped containers and dangling
+images.</p>
+<blockquote>
+<p>docker ps -a --filter status=exited<br />
+docker images --filter dangling=true</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Remove selected test objects by name or
+ID.</p>
+<blockquote>
+<p>docker container prune</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Review usage again.</p>
+<blockquote>
+<p>docker system df</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> You can explain exactly which objects
+were removed.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<h1 id="module-4--persistent-storage">Module 4 — Persistent storage</h1>
+<h2 id="lab-41--named-volumes">Lab 4.1 — Named volumes</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Intermediate</td>
+<td>35 min</td>
+<td>Persist data independently of a container lifecycle.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> volume, mount point, persistence,
+ownership</p>
+<p><strong>Step 1 —</strong> Create and inspect a named volume.</p>
+<blockquote>
+<p>docker volume create lab-data<br />
+docker volume inspect lab-data</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Write data through one container.</p>
+<blockquote>
+<p>docker run --rm -v lab-data:/data alpine sh -c 'date &gt;
+/data/created.txt; echo persistent &gt;&gt; /data/created.txt'</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Read it through another container.</p>
+<blockquote>
+<p>docker run --rm -v lab-data:/data:ro alpine cat /data/created.txt</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Show the volume still exists.</p>
+<blockquote>
+<p>docker volume ls<br />
+docker system df -v</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> A second disposable container reads the
+file written by the first.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker volume rm lab-data</p>
+</blockquote>
+<h2 id="lab-42--bind-mounts-and-live-web-content">Lab 4.2 — Bind mounts
+and live web content</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Intermediate</td>
+<td>35 min</td>
+<td>Serve host-managed content without rebuilding an image.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> bind mount, read-only mount, host path,
+live update</p>
+<p><strong>Step 1 —</strong> Create a project directory and page.</p>
+<blockquote>
+<p>mkdir -p ~/docker-labs/bind-web/html<br />
+printf '&lt;h1&gt;Docker bind-mount lab&lt;/h1&gt;\n&lt;p&gt;Served from
+Ubuntu.&lt;/p&gt;\n' &gt; ~/docker-labs/bind-web/html/index.html</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Run Nginx with a read-only bind mount.</p>
+<blockquote>
+<p>docker run -d --name bind-web -p 8083:80 -v
+~/docker-labs/bind-web/html:/usr/share/nginx/html:ro nginx:alpine</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Test, edit the host file, and test
+again.</p>
+<blockquote>
+<p>curl http://localhost:8083<br />
+printf '&lt;h1&gt;Updated without rebuild&lt;/h1&gt;\n' &gt;
+~/docker-labs/bind-web/html/index.html<br />
+curl http://localhost:8083</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Inspect the mount.</p>
+<blockquote>
+<p>docker inspect -f '{{json .Mounts}}' bind-web</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> The second curl response changes without
+recreating the container.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker rm -f bind-web</p>
+</blockquote>
+<h2 id="lab-43--backup-and-restore-a-volume">Lab 4.3 — Backup and
+restore a volume</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Advanced</td>
+<td>40 min</td>
+<td>Create a portable backup and restore it into a new volume.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> tar backup, restore, disposable utility
+container</p>
+<p><strong>Step 1 —</strong> Create source data.</p>
+<blockquote>
+<p>docker volume create source-data<br />
+docker run --rm -v source-data:/data alpine sh -c 'mkdir -p /data/app;
+echo critical &gt; /data/app/data.txt'<br />
+mkdir -p ~/docker-labs/backups</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Back up the volume.</p>
+<blockquote>
+<p>docker run --rm -v source-data:/source:ro -v
+~/docker-labs/backups:/backup alpine tar czf /backup/source-data.tgz -C
+/source .</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Restore into a different volume.</p>
+<blockquote>
+<p>docker volume create restored-data<br />
+docker run --rm -v restored-data:/target -v
+~/docker-labs/backups:/backup alpine tar xzf /backup/source-data.tgz -C
+/target</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Validate the restored data.</p>
+<blockquote>
+<p>docker run --rm -v restored-data:/data:ro alpine cat
+/data/app/data.txt</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> The restored volume returns
+critical.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker volume rm source-data restored-data</p>
+</blockquote>
+<h1 id="module-5--container-networking">Module 5 — Container
+networking</h1>
+<h2 id="lab-51--default-bridge-versus-user-defined-bridge">Lab 5.1 —
+Default bridge versus user-defined bridge</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Intermediate</td>
+<td>40 min</td>
+<td>Use Docker DNS for container-to-container communication.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> bridge, embedded DNS, service discovery,
+isolation</p>
+<p><strong>Step 1 —</strong> Create a user-defined network.</p>
+<blockquote>
+<p>docker network create app-net<br />
+docker network inspect app-net</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Start a web server attached to it.</p>
+<blockquote>
+<p>docker run -d --name backend --network app-net nginx:alpine</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Resolve and call it by container name.</p>
+<blockquote>
+<p>docker run --rm --network app-net alpine sh -c 'wget -qO-
+http://backend | head'</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Show isolation from an unrelated
+network.</p>
+<blockquote>
+<p>docker network create isolated-net<br />
+docker run --rm --network isolated-net alpine sh -c 'wget -T 2 -qO-
+http://backend || echo backend-not-reachable'</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> Name resolution works on app-net and
+fails from isolated-net.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker rm -f backend<br />
+docker network rm app-net isolated-net</p>
+</blockquote>
+<h2 id="lab-52--port-publishing-and-address-binding">Lab 5.2 — Port
+publishing and address binding</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Intermediate</td>
+<td>30 min</td>
+<td>Control which host interfaces expose a container port.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> publish, host IP, container port, 0.0.0.0,
+loopback</p>
+<table>
+<thead>
+<tr class="header">
+<th><strong>CAUTION</strong> Published Docker ports may bypass expected
+UFW behavior. Use the DOCKER-USER chain for policy enforcement in
+production designs.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Step 1 —</strong> Publish to all host interfaces.</p>
+<blockquote>
+<p>docker run -d --name public-web -p 8084:80 nginx:alpine<br />
+docker port public-web<br />
+sudo ss -lntp | grep 8084</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Replace it with a loopback-only
+binding.</p>
+<blockquote>
+<p>docker rm -f public-web<br />
+docker run -d --name local-web -p 127.0.0.1:8084:80 nginx:alpine</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Compare local and Windows reachability.</p>
+<blockquote>
+<p>curl <a href="http://127.0.0.1:8084">http://127.0.0.1:8084</a></p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> Ubuntu curl succeeds; Windows access to
+<a href="http://192.168.56.10:8084">http://192.168.56.10:8084</a> fails
+while bound to 127.0.0.1.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker rm -f local-web</p>
+</blockquote>
+<h2 id="lab-53--custom-subnet-and-static-container-address">Lab 5.3 —
+Custom subnet and static container address</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Advanced</td>
+<td>30 min</td>
+<td>Create deterministic lab IPAM while preserving DNS-based service
+discovery.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> IPAM, subnet, gateway, static address</p>
+<p><strong>Step 1 —</strong> Create a custom bridge.</p>
+<blockquote>
+<p>docker network create --driver bridge --subnet 172.30.0.0/24
+--gateway 172.30.0.1 custom-net</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Start a container at a fixed address.</p>
+<blockquote>
+<p>docker run -d --name fixed-web --network custom-net --ip 172.30.0.10
+nginx:alpine</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Inspect and test it from the same
+network.</p>
+<blockquote>
+<p>docker inspect -f '{{range
+.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' fixed-web<br />
+docker run --rm --network custom-net alpine wget -qO-
+http://fixed-web</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> Inspection reports 172.30.0.10 and DNS
+name fixed-web works.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th><strong>STRETCH</strong> Explain why application configuration
+should normally use fixed-web rather than 172.30.0.10.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker rm -f fixed-web<br />
+docker network rm custom-net</p>
+</blockquote>
+<h1 id="module-6--dockerfiles-and-image-builds">Module 6 — Dockerfiles
+and image builds</h1>
+<h2 id="lab-61--build-a-custom-static-website-image">Lab 6.1 — Build a
+custom static website image</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Intermediate</td>
+<td>45 min</td>
+<td>Create a reproducible image from source.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> Dockerfile, build context, FROM, COPY,
+tag</p>
+<p><strong>Step 1 —</strong> Create the project.</p>
+<blockquote>
+<p>mkdir -p ~/docker-labs/custom-web<br />
+cd ~/docker-labs/custom-web<br />
+printf '&lt;h1&gt;My first Docker image&lt;/h1&gt;\n' &gt;
+index.html</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Create Dockerfile with your editor.</p>
+<blockquote>
+<p>nano Dockerfile</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Enter the Dockerfile content.</p>
+<blockquote>
+<p>FROM nginx:alpine<br />
+COPY index.html /usr/share/nginx/html/index.html</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Build and inspect the image.</p>
+<blockquote>
+<p>docker build -t custom-web:v1 .<br />
+docker images custom-web<br />
+docker history custom-web:v1</p>
+</blockquote>
+<p><strong>Step 5 —</strong> Run and verify.</p>
+<blockquote>
+<p>docker run -d --name custom-web -p 8085:80 custom-web:v1<br />
+curl http://localhost:8085</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> The response says My first Docker image
+and docker history shows the COPY layer.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker rm -f custom-web</p>
+</blockquote>
+<h2 id="lab-62--build-cache-and-dockerignore">Lab 6.2 — Build cache and
+.dockerignore</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Intermediate</td>
+<td>40 min</td>
+<td>Make builds smaller, safer, and faster.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> build context, cache, invalidation,
+.dockerignore</p>
+<p><strong>Step 1 —</strong> Add files that must not enter the build
+context.</p>
+<blockquote>
+<p>cd ~/docker-labs/custom-web<br />
+mkdir -p logs<br />
+printf 'secret-demo-only\n' &gt; local-secret.txt<br />
+printf '*.log\nlocal-secret.txt\n.git\n' &gt; .dockerignore<br />
+printf 'noise\n' &gt; logs/debug.log</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Build twice and observe CACHED steps.</p>
+<blockquote>
+<p>docker build -t custom-web:v2 .<br />
+docker build -t custom-web:v2 .</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Change index.html and rebuild.</p>
+<blockquote>
+<p>printf '&lt;h1&gt;Cache invalidation test&lt;/h1&gt;\n' &gt;
+index.html<br />
+docker build -t custom-web:v3 .</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Prove ignored content is absent.</p>
+<blockquote>
+<p>docker run --rm custom-web:v3 sh -c 'test ! -e /local-secret.txt
+&amp;&amp; echo ignored-successfully'</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> The second unchanged build uses cache;
+local-secret.txt is not in the image.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th><strong>STRETCH</strong> Use docker build --no-cache once and
+compare elapsed time.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<h2 id="lab-63--run-as-a-non-root-user">Lab 6.3 — Run as a non-root
+user</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Advanced</td>
+<td>50 min</td>
+<td>Build a least-privilege application image.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> USER, ownership, unprivileged port,
+runtime identity</p>
+<p><strong>Step 1 —</strong> Create a simple Python project.</p>
+<blockquote>
+<p>mkdir -p ~/docker-labs/nonroot-app<br />
+cd ~/docker-labs/nonroot-app<br />
+printf 'from http.server import HTTPServer,
+SimpleHTTPRequestHandler\nHTTPServer(("0.0.0.0", 8000),
+SimpleHTTPRequestHandler).serve_forever()\n' &gt; app.py<br />
+nano Dockerfile</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Enter the Dockerfile.</p>
+<blockquote>
+<p>FROM python:3.13-alpine<br />
+WORKDIR /app<br />
+COPY --chown=10001:10001 app.py .<br />
+USER 10001:10001<br />
+EXPOSE 8000<br />
+CMD ["python", "app.py"]</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Build and run.</p>
+<blockquote>
+<p>docker build -t nonroot-app:v1 .<br />
+docker run -d --name nonroot-app -p 8086:8000 nonroot-app:v1</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Verify runtime identity.</p>
+<blockquote>
+<p>docker exec nonroot-app id<br />
+docker inspect -f 'Configured user={{.Config.User}}' nonroot-app<br />
+curl http://localhost:8086</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> id reports uid=10001 and the web request
+succeeds.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker rm -f nonroot-app</p>
+</blockquote>
+<h2 id="lab-64--multi-stage-build">Lab 6.4 — Multi-stage build</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Advanced</td>
+<td>60 min</td>
+<td>Separate build dependencies from the runtime image.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> multi-stage build, artifact copy, attack
+surface, image size</p>
+<p><strong>Step 1 —</strong> Create a Go application.</p>
+<blockquote>
+<p>mkdir -p ~/docker-labs/multistage<br />
+cd ~/docker-labs/multistage<br />
+printf 'package main\nimport ("fmt"; "net/http")\nfunc
+main(){http.HandleFunc("/",func(w http.ResponseWriter,r
+*http.Request){fmt.Fprintln(w,"multi-stage
+works")});http.ListenAndServe(":8080",nil)}\n' &gt; main.go<br />
+nano Dockerfile</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Enter the multi-stage Dockerfile.</p>
+<blockquote>
+<p>FROM golang:1.25-alpine AS build<br />
+WORKDIR /src<br />
+COPY main.go .<br />
+RUN CGO_ENABLED=0 go build -o /out/app main.go</p>
+<p>FROM scratch<br />
+COPY --from=build /out/app /app<br />
+USER 65532:65532<br />
+EXPOSE 8080<br />
+ENTRYPOINT ["/app"]</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Build and compare sizes.</p>
+<blockquote>
+<p>docker build -t multistage-app:v1 .<br />
+docker images multistage-app golang</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Run and test.</p>
+<blockquote>
+<p>docker run -d --name multistage-app -p 8087:8080
+multistage-app:v1<br />
+curl http://localhost:8087</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> The app responds multi-stage works and
+its final image is far smaller than golang:1.25-alpine.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker rm -f multistage-app</p>
+</blockquote>
+<h1 id="module-7--docker-compose">Module 7 — Docker Compose</h1>
+<h2 id="lab-71--convert-nginx-to-compose">Lab 7.1 — Convert Nginx to
+Compose</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Intermediate</td>
+<td>45 min</td>
+<td>Declare and manage a service as code.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> compose.yaml, service, ports, bind mount,
+project lifecycle</p>
+<p><strong>Step 1 —</strong> Create the project.</p>
+<blockquote>
+<p>mkdir -p ~/docker-labs/compose-web/html<br />
+cd ~/docker-labs/compose-web<br />
+printf '&lt;h1&gt;Managed by Compose&lt;/h1&gt;\n' &gt;
+html/index.html<br />
+nano compose.yaml</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Enter the Compose file.</p>
+<blockquote>
+<p>services:<br />
+web:<br />
+image: nginx:alpine<br />
+ports:</p>
+<ul>
+<li>"8088:80"<br />
+volumes:</li>
+<li>./html:/usr/share/nginx/html:ro<br />
+restart: unless-stopped</li>
+</ul>
+</blockquote>
+<p><strong>Step 3 —</strong> Validate and start.</p>
+<blockquote>
+<p>docker compose config<br />
+docker compose up -d<br />
+docker compose ps<br />
+curl http://localhost:8088</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Inspect logs and stop without deleting.</p>
+<blockquote>
+<p>docker compose logs --tail 20 web<br />
+docker compose stop<br />
+docker compose ps -a</p>
+</blockquote>
+<p><strong>Step 5 —</strong> Start again.</p>
+<blockquote>
+<p>docker compose start</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> docker compose config succeeds and
+Windows can open <a
+href="http://192.168.56.10:8088">http://192.168.56.10:8088</a>.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>cd ~/docker-labs/compose-web &amp;&amp; docker compose down</p>
+</blockquote>
+<h2 id="lab-72--multi-container-application-with-database">Lab 7.2 —
+Multi-container application with database</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Advanced</td>
+<td>75 min</td>
+<td>Operate an application and PostgreSQL on a private network.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> service DNS, environment, named volume,
+dependency, database persistence</p>
+<table>
+<thead>
+<tr class="header">
+<th><strong>CAUTION</strong> The password is intentionally simple for an
+isolated training VM only. Never commit real secrets to Compose
+files.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Step 1 —</strong> Create the project and Compose file.</p>
+<blockquote>
+<p>mkdir -p ~/docker-labs/compose-db<br />
+cd ~/docker-labs/compose-db<br />
+nano compose.yaml</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Enter the Compose file.</p>
+<blockquote>
+<p>services:<br />
+db:<br />
+image: postgres:17-alpine<br />
+environment:<br />
+POSTGRES_DB: labdb<br />
+POSTGRES_USER: labuser<br />
+POSTGRES_PASSWORD: labpass-change-me<br />
+volumes:</p>
+<ul>
+<li>pgdata:/var/lib/postgresql/data<br />
+healthcheck:<br />
+test: ["CMD-SHELL", "pg_isready -U labuser -d labdb"]<br />
+interval: 5s<br />
+timeout: 3s<br />
+retries: 10<br />
+adminer:<br />
+image: adminer:latest<br />
+ports:</li>
+<li>"8089:8080"<br />
+depends_on:<br />
+db:<br />
+condition: service_healthy<br />
+volumes:<br />
+pgdata:</li>
+</ul>
+</blockquote>
+<p><strong>Step 3 —</strong> Validate and launch.</p>
+<blockquote>
+<p>docker compose config<br />
+docker compose up -d<br />
+docker compose ps</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Create and query a table.</p>
+<blockquote>
+<p>docker compose exec db psql -U labuser -d labdb -c 'CREATE TABLE IF
+NOT EXISTS notes(id serial primary key, body text);'<br />
+docker compose exec db psql -U labuser -d labdb -c "INSERT INTO
+notes(body) VALUES ('persistent row');"<br />
+docker compose exec db psql -U labuser -d labdb -c 'SELECT * FROM
+notes;'</p>
+</blockquote>
+<p><strong>Step 5 —</strong> Recreate services while preserving the
+volume.</p>
+<blockquote>
+<p>docker compose down<br />
+docker compose up -d<br />
+docker compose exec db psql -U labuser -d labdb -c 'SELECT * FROM
+notes;'</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> The persistent row remains after docker
+compose down/up.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>cd ~/docker-labs/compose-db &amp;&amp; docker compose down -v</p>
+</blockquote>
+<h2 id="lab-73--compose-overrides-profiles-and-scaling">Lab 7.3 —
+Compose overrides, profiles, and scaling</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Advanced</td>
+<td>60 min</td>
+<td>Adapt one Compose model for multiple operating modes.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> profiles, override files, replicas,
+project names</p>
+<p><strong>Step 1 —</strong> Create a profile-based stack.</p>
+<blockquote>
+<p>mkdir -p ~/docker-labs/compose-profiles<br />
+cd ~/docker-labs/compose-profiles<br />
+nano compose.yaml</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Enter the Compose file.</p>
+<blockquote>
+<p>services:<br />
+web:<br />
+image: nginx:alpine<br />
+debug:<br />
+image: nicolaka/netshoot<br />
+command: sleep infinity<br />
+profiles: ["debug"]</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Start only the default service.</p>
+<blockquote>
+<p>docker compose up -d<br />
+docker compose ps</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Start the debug profile.</p>
+<blockquote>
+<p>docker compose --profile debug up -d<br />
+docker compose ps</p>
+</blockquote>
+<p><strong>Step 5 —</strong> Scale a service without publishing a fixed
+host port.</p>
+<blockquote>
+<p>docker compose up -d --scale web=3<br />
+docker compose ps</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> Three web replicas and one debug
+container are running.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>cd ~/docker-labs/compose-profiles &amp;&amp; docker compose --profile
+debug down</p>
+</blockquote>
+<h1 id="module-8--operations-and-troubleshooting">Module 8 — Operations
+and troubleshooting</h1>
+<h2 id="lab-81--events-stats-and-process-troubleshooting">Lab 8.1 —
+Events, stats, and process troubleshooting</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Advanced</td>
+<td>45 min</td>
+<td>Correlate lifecycle events with resource behavior.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> events, stats, top, inspect, OOM state</p>
+<p><strong>Step 1 —</strong> Open a second SSH session and watch
+events.</p>
+<blockquote>
+<p>docker events --filter type=container</p>
+</blockquote>
+<p><strong>Step 2 —</strong> In the first session, generate lifecycle
+events.</p>
+<blockquote>
+<p>docker run -d --name ops-lab alpine sleep 300<br />
+docker pause ops-lab<br />
+docker unpause ops-lab<br />
+docker restart ops-lab</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Review live and one-shot resource data.</p>
+<blockquote>
+<p>docker stats ops-lab<br />
+docker stats --no-stream ops-lab<br />
+docker top ops-lab</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Inspect exit and OOM fields.</p>
+<blockquote>
+<p>docker inspect -f 'Status={{.State.Status}} Exit={{.State.ExitCode}}
+OOM={{.State.OOMKilled}} Error={{.State.Error}}' ops-lab</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> The second session records
+create/start/pause/unpause/restart events.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker rm -f ops-lab</p>
+</blockquote>
+<h2 id="lab-82--health-checks">Lab 8.2 — Health checks</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Advanced</td>
+<td>45 min</td>
+<td>Distinguish a running process from a healthy application.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> HEALTHCHECK, status transitions, health
+logs</p>
+<p><strong>Step 1 —</strong> Run Nginx with a runtime health check.</p>
+<blockquote>
+<p>docker run -d --name health-web -p 8090:80 --health-cmd='wget -qO- <a
+href="http://127.0.0.1/">http://127.0.0.1/</a> &gt;/dev/null || exit 1'
+--health-interval=5s --health-timeout=2s --health-retries=3
+nginx:alpine</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Watch health transition.</p>
+<blockquote>
+<p>watch -n 2 "docker ps --filter name=health-web"</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Exit watch with Ctrl+C and inspect health
+logs.</p>
+<blockquote>
+<p>docker inspect -f '{{json .State.Health}}' health-web</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> The status becomes Up ... (healthy) and
+health output shows exit code 0.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker rm -f health-web</p>
+</blockquote>
+<h2 id="lab-83--resource-limits-and-oom-behavior">Lab 8.3 — Resource
+limits and OOM behavior</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Advanced</td>
+<td>45 min</td>
+<td>Constrain CPU and memory and diagnose enforcement.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> memory limit, CPU quota, OOMKilled,
+resource accounting</p>
+<table>
+<thead>
+<tr class="header">
+<th><strong>CAUTION</strong> This lab intentionally causes one
+disposable container to fail. It should not exhaust the VM because
+Docker limits it to 32 MiB.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Step 1 —</strong> Run a memory-limited container.</p>
+<blockquote>
+<p>docker run -d --name limited --memory 64m --cpus 0.50 alpine sleep
+600</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Inspect limits.</p>
+<blockquote>
+<p>docker inspect -f 'Memory={{.HostConfig.Memory}}
+NanoCPUs={{.HostConfig.NanoCpus}}' limited<br />
+docker stats --no-stream limited</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Trigger an intentional memory failure using
+a separate container.</p>
+<blockquote>
+<p>docker run --name oom-test --memory 32m alpine sh -c 'x=$(head -c
+100M /dev/zero | base64); sleep 5' || true</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Diagnose termination.</p>
+<blockquote>
+<p>docker inspect -f 'Exit={{.State.ExitCode}} OOM={{.State.OOMKilled}}'
+oom-test</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> limited remains running with configured
+limits; oom-test reports OOMKilled=true or an OOM-related nonzero
+exit.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker rm -f limited oom-test</p>
+</blockquote>
+<h2 id="lab-84--a-repeatable-troubleshooting-workflow">Lab 8.4 — A
+repeatable troubleshooting workflow</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Advanced</td>
+<td>50 min</td>
+<td>Diagnose a container that starts and exits.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> exit code, logs, configuration, mounts,
+ports, DNS</p>
+<p><strong>Step 1 —</strong> Create a deliberately broken container.</p>
+<blockquote>
+<p>docker run --name broken-web nginx:alpine nginx -g 'bad_directive;'
+|| true</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Apply the standard evidence sequence.</p>
+<blockquote>
+<p>docker ps -a --filter name=broken-web<br />
+docker inspect -f 'Exit={{.State.ExitCode}} Error={{.State.Error}}'
+broken-web<br />
+docker logs broken-web<br />
+docker inspect broken-web</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Remove and correct it.</p>
+<blockquote>
+<p>docker rm broken-web<br />
+docker run -d --name fixed-web -p 8091:80 nginx:alpine<br />
+curl http://localhost:8091</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> You identify the invalid Nginx directive
+from logs, then the corrected container returns HTTP 200.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker rm -f fixed-web</p>
+</blockquote>
+<h1 id="module-9--security-hardening">Module 9 — Security hardening</h1>
+<h2 id="lab-91--capabilities-read-only-filesystems-and-tmpfs">Lab 9.1 —
+Capabilities, read-only filesystems, and tmpfs</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Advanced</td>
+<td>60 min</td>
+<td>Reduce container privileges without breaking the workload.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> Linux capabilities, read-only rootfs,
+tmpfs, no-new-privileges</p>
+<p><strong>Step 1 —</strong> Run a hardened Nginx container.</p>
+<blockquote>
+<p>docker run -d --name secure-web -p 8092:8080 --read-only --tmpfs
+/var/cache/nginx --tmpfs /var/run --tmpfs /tmp --cap-drop ALL --cap-add
+NET_BIND_SERVICE --security-opt no-new-privileges:true
+nginxinc/nginx-unprivileged:alpine</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Inspect security settings.</p>
+<blockquote>
+<p>docker inspect -f 'Readonly={{.HostConfig.ReadonlyRootfs}}
+CapDrop={{json .HostConfig.CapDrop}} CapAdd={{json .HostConfig.CapAdd}}'
+secure-web</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Test the service and prove rootfs is
+read-only.</p>
+<blockquote>
+<p>curl http://localhost:8092<br />
+docker exec secure-web sh -c 'touch /should-fail' || echo
+write-blocked</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> HTTP succeeds and writing to /
+fails.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker rm -f secure-web</p>
+</blockquote>
+<h2 id="lab-92--secrets-without-baking-them-into-images">Lab 9.2 —
+Secrets without baking them into images</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Advanced</td>
+<td>50 min</td>
+<td>Mount sensitive runtime material without storing it in image
+layers.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> secret file, bind mount, permissions,
+image history</p>
+<table>
+<thead>
+<tr class="header">
+<th><strong>CAUTION</strong> Do not print real secrets to the terminal,
+logs, shell history, or build output.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Step 1 —</strong> Create a demo secret with restrictive
+permissions.</p>
+<blockquote>
+<p>mkdir -p ~/docker-labs/secrets<br />
+printf 'demo-only-value\n' &gt; ~/docker-labs/secrets/api_key<br />
+chmod 600 ~/docker-labs/secrets/api_key</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Mount it read-only at runtime.</p>
+<blockquote>
+<p>docker run --rm -v
+~/docker-labs/secrets/api_key:/run/secrets/api_key:ro alpine sh -c 'test
+-r /run/secrets/api_key &amp;&amp; echo secret-mounted'</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Confirm the secret is not part of the image
+metadata.</p>
+<blockquote>
+<p>docker image inspect alpine --format '{{json .Config.Env}}'<br />
+docker history alpine</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> The container can read the mounted file,
+while image inspection/history does not contain its value.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<h2 id="lab-93--docker-socket-risk">Lab 9.3 — Docker socket risk</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Expert</td>
+<td>35 min</td>
+<td>Demonstrate why docker-group and socket access are
+root-equivalent.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> docker.sock, daemon authority, privilege
+boundary</p>
+<table>
+<thead>
+<tr class="header">
+<th><strong>CAUTION</strong> Do not expose /var/run/docker.sock inside
+arbitrary containers and never publish the unauthenticated Docker API on
+TCP/2375.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Step 1 —</strong> Inspect socket ownership.</p>
+<blockquote>
+<p>ls -l /var/run/docker.sock<br />
+id</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Observe that a docker-group user can mount
+host paths.</p>
+<blockquote>
+<p>docker run --rm -v /etc/hostname:/host-hostname:ro alpine cat
+/host-hostname</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Review which users belong to the group.</p>
+<blockquote>
+<p>getent group docker</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> You can explain why only trusted
+administrators should belong to docker.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<h1 id="module-10--daemon-administration-and-reliability">Module 10 —
+Daemon administration and reliability</h1>
+<h2 id="lab-101--configure-bounded-local-logs">Lab 10.1 — Configure
+bounded local logs</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Expert</td>
+<td>45 min</td>
+<td>Prevent unbounded container logs from filling the VM disk.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> daemon.json, json-file rotation, daemon
+validation</p>
+<table>
+<thead>
+<tr class="header">
+<th><strong>CAUTION</strong> A malformed daemon.json can prevent Docker
+from starting. Validate JSON first and keep your SSH session open while
+testing.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Step 1 —</strong> Inspect the current logging driver.</p>
+<blockquote>
+<p>docker info --format 'Logging={{.LoggingDriver}}'<br />
+sudo test -f /etc/docker/daemon.json &amp;&amp; sudo cat
+/etc/docker/daemon.json || true</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Create or merge this configuration
+carefully using an editor.</p>
+<blockquote>
+<p>sudo nano /etc/docker/daemon.json</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Use this minimal JSON if the file did not
+exist.</p>
+<blockquote>
+<p>{<br />
+"log-driver": "json-file",<br />
+"log-opts": {<br />
+"max-size": "10m",<br />
+"max-file": "3"<br />
+}<br />
+}</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Validate JSON before restarting.</p>
+<blockquote>
+<p>python3 -m json.tool /etc/docker/daemon.json &gt;/dev/null &amp;&amp;
+echo valid-json<br />
+sudo systemctl restart docker<br />
+docker info --format 'Logging={{.LoggingDriver}}'</p>
+</blockquote>
+<p><strong>Step 5 —</strong> Confirm options on a newly created
+container.</p>
+<blockquote>
+<p>docker run -d --name log-test alpine sleep 60<br />
+docker inspect -f '{{json .HostConfig.LogConfig}}' log-test</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> JSON validation succeeds, Docker
+restarts, and log-test inherits max-size 10m and max-file 3.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker rm -f log-test</p>
+</blockquote>
+<h2 id="lab-102--restart-policies-and-daemon-restart">Lab 10.2 — Restart
+policies and daemon restart</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Expert</td>
+<td>35 min</td>
+<td>Predict service behavior across daemon restarts.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> restart policy, unless-stopped, daemon
+lifecycle</p>
+<p><strong>Step 1 —</strong> Create two containers with different
+policies.</p>
+<blockquote>
+<p>docker run -d --name no-restart alpine sleep 3600<br />
+docker run -d --name auto-restart --restart unless-stopped alpine sleep
+3600</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Restart Docker.</p>
+<blockquote>
+<p>sudo systemctl restart docker<br />
+sleep 3<br />
+docker ps -a --format 'table {{.Names}}\t{{.Status}}'</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Manually start the no-policy container if
+needed.</p>
+<blockquote>
+<p>docker start no-restart</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> auto-restart returns automatically;
+no-restart behavior is recorded and explained.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker rm -f no-restart auto-restart</p>
+</blockquote>
+<h2 id="lab-103--diagnose-daemon-failures">Lab 10.3 — Diagnose daemon
+failures</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Expert</td>
+<td>40 min</td>
+<td>Collect authoritative evidence when the Docker service fails.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> systemd, journal, socket, daemon
+configuration</p>
+<p><strong>Step 1 —</strong> Capture current service and socket
+state.</p>
+<blockquote>
+<p>systemctl status docker --no-pager<br />
+systemctl status docker.socket --no-pager<br />
+sudo ss -lx | grep docker.sock</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Read recent daemon logs.</p>
+<blockquote>
+<p>sudo journalctl -u docker --since '-15 minutes' --no-pager</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Validate the daemon configuration.</p>
+<blockquote>
+<p>sudo python3 -m json.tool /etc/docker/daemon.json &gt;/dev/null
+&amp;&amp; echo daemon-json-valid</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Review storage and inode pressure.</p>
+<blockquote>
+<p>df -h / /var/lib/docker<br />
+df -i / /var/lib/docker<br />
+docker system df</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> You have a four-part incident checklist:
+systemd state, journal, configuration validity, and storage
+capacity.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<h1 id="module-11--registries-buildkit-and-remote-administration">Module
+11 — Registries, BuildKit, and remote administration</h1>
+<h2 id="lab-111--run-a-private-local-registry">Lab 11.1 — Run a private
+local registry</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Expert</td>
+<td>60 min</td>
+<td>Push and pull images through a lab registry.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> registry, tag, push, pull,
+distribution</p>
+<table>
+<thead>
+<tr class="header">
+<th><strong>CAUTION</strong> An insecure HTTP registry is acceptable
+only in this isolated training network. Production registries require
+TLS and authentication.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Step 1 —</strong> Start a registry bound only to the
+host-only address.</p>
+<blockquote>
+<p>docker run -d --name registry --restart unless-stopped -p
+192.168.56.10:5000:5000 registry:2</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Because this lab registry is HTTP, add it
+explicitly to daemon.json by merging this key.</p>
+<blockquote>
+<p>"insecure-registries": ["192.168.56.10:5000"]</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Validate and restart Docker.</p>
+<blockquote>
+<p>sudo python3 -m json.tool /etc/docker/daemon.json &gt;/dev/null<br />
+sudo systemctl restart docker</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Tag and push the custom image.</p>
+<blockquote>
+<p>docker tag custom-web:v3 192.168.56.10:5000/custom-web:v3<br />
+docker push 192.168.56.10:5000/custom-web:v3</p>
+</blockquote>
+<p><strong>Step 5 —</strong> Remove the local tag, then pull it
+back.</p>
+<blockquote>
+<p>docker rmi 192.168.56.10:5000/custom-web:v3<br />
+docker pull 192.168.56.10:5000/custom-web:v3</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> The image is pulled back from your local
+registry.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker rm -f registry</p>
+</blockquote>
+<h2 id="lab-112--buildkit-targets-and-build-arguments">Lab 11.2 —
+BuildKit targets and build arguments</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Expert</td>
+<td>60 min</td>
+<td>Build distinct debug and production targets from one
+Dockerfile.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> BuildKit, target, ARG, metadata, cache</p>
+<p><strong>Step 1 —</strong> Create a target-based Dockerfile.</p>
+<blockquote>
+<p>mkdir -p ~/docker-labs/build-targets<br />
+cd ~/docker-labs/build-targets<br />
+nano Dockerfile</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Enter the Dockerfile.</p>
+<blockquote>
+<p>FROM alpine AS base<br />
+ARG BUILD_VERSION=dev<br />
+RUN echo $BUILD_VERSION &gt; /version</p>
+<p>FROM base AS debug<br />
+RUN apk add --no-cache curl<br />
+CMD ["sh"]</p>
+<p>FROM base AS production<br />
+CMD ["cat", "/version"]</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Build both targets.</p>
+<blockquote>
+<p>docker build --target debug --build-arg BUILD_VERSION=1.0 -t
+target-app:debug .<br />
+docker build --target production --build-arg BUILD_VERSION=1.0 -t
+target-app:prod .</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Compare contents and sizes.</p>
+<blockquote>
+<p>docker images target-app<br />
+docker run --rm target-app:prod<br />
+docker run --rm target-app:debug curl --version | head -1</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> The production target prints 1.0; only
+the debug target contains curl.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th><strong>STRETCH</strong> Explain why ARG is not suitable for secrets
+even when the final stage does not visibly expose it.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<h2 id="lab-113--manage-the-vm-with-a-docker-ssh-context">Lab 11.3 —
+Manage the VM with a Docker SSH context</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Expert</td>
+<td>50 min</td>
+<td>Control the remote Docker Engine securely from another Docker
+CLI.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> context, SSH transport, remote daemon,
+socket authorization</p>
+<table>
+<thead>
+<tr class="header">
+<th><strong>CAUTION</strong> Run this lab only if your Windows
+workstation has a Docker CLI. SSH is safer than exposing the daemon on
+an unauthenticated TCP socket.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Step 1 —</strong> On a machine with Docker CLI and SSH
+access, create the context.</p>
+<blockquote>
+<p>docker context create ubuntu-lab --docker host=ssh://<a
+href="mailto:moshahid@192.168.56.10">moshahid@192.168.56.10</a></p>
+</blockquote>
+<p><strong>Step 2 —</strong> Inspect and test it.</p>
+<blockquote>
+<p>docker context inspect ubuntu-lab<br />
+docker --context ubuntu-lab ps</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Switch temporarily and switch back.</p>
+<blockquote>
+<p>docker context use ubuntu-lab<br />
+docker info --format '{{.Name}}'<br />
+docker context use default</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> The remote context lists containers from
+Test-VirtualBox over SSH.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<h1 id="module-12--orchestration-concepts-with-swarm">Module 12 —
+Orchestration concepts with Swarm</h1>
+<h2 id="lab-121--single-node-swarm-services">Lab 12.1 — Single-node
+Swarm services</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Expert</td>
+<td>60 min</td>
+<td>Understand desired state, replicas, services, and rolling
+updates.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> Swarm, service, replica, desired state,
+update</p>
+<p><strong>Step 1 —</strong> Initialize a single-node training swarm on
+the host-only IP.</p>
+<blockquote>
+<p>docker swarm init --advertise-addr 192.168.56.10</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Create a replicated service.</p>
+<blockquote>
+<p>docker service create --name swarm-web --publish
+published=8093,target=80 --replicas 3 nginx:alpine</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Inspect tasks and service state.</p>
+<blockquote>
+<p>docker service ls<br />
+docker service ps swarm-web</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Scale and update.</p>
+<blockquote>
+<p>docker service scale swarm-web=5<br />
+docker service update --image nginx:stable-alpine swarm-web<br />
+docker service ps swarm-web</p>
+</blockquote>
+<p><strong>Step 5 —</strong> Test from Ubuntu and Windows.</p>
+<blockquote>
+<p>curl http://localhost:8093</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> Five replicas converge and the published
+service answers on port 8093.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th><strong>STRETCH</strong> Compare Swarm service desired state with a
+standalone docker run container.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker service rm swarm-web<br />
+docker swarm leave --force</p>
+</blockquote>
+<h2 id="lab-122--swarm-secrets-and-configs">Lab 12.2 — Swarm secrets and
+configs</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Time</strong></th>
+<th><strong>Primary outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Expert</td>
+<td>50 min</td>
+<td>Deliver runtime configuration without embedding it into an
+image.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concepts:</strong> Swarm secret, config, service mount</p>
+<p><strong>Step 1 —</strong> Initialize Swarm if Lab 12.1 cleanup was
+completed.</p>
+<blockquote>
+<p>docker swarm init --advertise-addr 192.168.56.10</p>
+</blockquote>
+<p><strong>Step 2 —</strong> Create a secret and config.</p>
+<blockquote>
+<p>printf 'training-secret-value' | docker secret create app_secret
+-<br />
+printf 'feature=true\n' | docker config create app_config -</p>
+</blockquote>
+<p><strong>Step 3 —</strong> Mount both into a service.</p>
+<blockquote>
+<p>docker service create --name secret-reader --secret app_secret
+--config app_config alpine sleep 600</p>
+</blockquote>
+<p><strong>Step 4 —</strong> Locate the task container and verify
+mounts.</p>
+<blockquote>
+<p>docker ps --filter name=secret-reader<br />
+docker exec $(docker ps -q --filter name=secret-reader) sh -c 'ls -l
+/run/secrets; cat /app_config'</p>
+</blockquote>
+<p><strong>Step 5 —</strong> Remove the service, then the objects.</p>
+<blockquote>
+<p>docker service rm secret-reader<br />
+docker secret rm app_secret<br />
+docker config rm app_config</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS CHECK</strong> The task sees /run/secrets/app_secret
+and /app_config; objects are removed after the service.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>Cleanup</strong></p>
+<blockquote>
+<p>docker swarm leave --force</p>
+</blockquote>
+<h1 id="module-13--capstone-projects">Module 13 — Capstone projects</h1>
+<table>
+<thead>
+<tr class="header">
+<th><strong>CAPSTONE METHOD</strong> For each project, design first,
+implement from source-controlled files, validate every requirement,
+intentionally break one component, diagnose it, repair it, and document
+cleanup.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<h2 id="capstone-a--production-style-web-stack">Capstone A —
+Production-style web stack</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Requirement</strong></th>
+<th><strong>Acceptance test</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Reverse proxy</td>
+<td>Nginx publishes one host-only port and routes to the application by
+service name.</td>
+</tr>
+<tr class="even">
+<td>Application</td>
+<td>A non-root container exposes an internal unprivileged port.</td>
+</tr>
+<tr class="odd">
+<td>Database</td>
+<td>PostgreSQL stores data in a named volume and is not published to
+Windows.</td>
+</tr>
+<tr class="even">
+<td>Reliability</td>
+<td>Health checks, restart policies, and dependency conditions are
+defined.</td>
+</tr>
+<tr class="odd">
+<td>Security</td>
+<td>Read-only filesystems where practical; secrets are runtime-mounted;
+unnecessary capabilities are dropped.</td>
+</tr>
+<tr class="even">
+<td>Operations</td>
+<td>Bounded logs, resource limits, backup and restore instructions, and
+a troubleshooting checklist exist.</td>
+</tr>
+<tr class="odd">
+<td>Delivery</td>
+<td>docker compose config passes; a clean docker compose up -d builds
+and starts the stack.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Deliverable —</strong> Create ~/docker-labs/capstone-web
+containing compose.yaml, Dockerfiles, source files, .dockerignore,
+README.md, backup.sh, restore.sh, and evidence.txt.</p>
+<p><strong>Failure drill —</strong> Break the database hostname, capture
+the application error, use logs/inspect/network commands to find it,
+repair it, and record the evidence.</p>
+<h2 id="capstone-b--local-build-and-registry-pipeline">Capstone B —
+Local build and registry pipeline</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Requirement</strong></th>
+<th><strong>Acceptance test</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Build</td>
+<td>Multi-stage Dockerfile produces debug and production targets.</td>
+</tr>
+<tr class="even">
+<td>Quality</td>
+<td>A containerized test command runs before the production tag is
+created.</td>
+</tr>
+<tr class="odd">
+<td>Metadata</td>
+<td>OCI labels record title, version, source, and revision.</td>
+</tr>
+<tr class="even">
+<td>Registry</td>
+<td>The versioned image is pushed to the isolated local registry.</td>
+</tr>
+<tr class="odd">
+<td>Rollback</td>
+<td>Two versions are retained and the previous version can be
+redeployed.</td>
+</tr>
+<tr class="even">
+<td>Evidence</td>
+<td>Image digest, history, size, SBOM/tool output if available, and
+rollback test are recorded.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Deliverable —</strong> Create ~/docker-labs/capstone-pipeline
+with a Makefile or shell-based workflow, Dockerfile, source, tests, and
+README.md. Never place credentials in ARG, ENV, image layers, or
+Git.</p>
+<h2 id="capstone-c--docker-operations-incident">Capstone C — Docker
+operations incident</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Injected fault</strong></th>
+<th><strong>Required diagnosis</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Container exits immediately</td>
+<td>Use ps -a, inspect State, exit code, and logs.</td>
+</tr>
+<tr class="even">
+<td>Port unavailable</td>
+<td>Use docker port, inspect, ss, curl, and host binding analysis.</td>
+</tr>
+<tr class="odd">
+<td>Service name does not resolve</td>
+<td>Inspect networks and prove whether both containers share a
+user-defined network.</td>
+</tr>
+<tr class="even">
+<td>Disk pressure</td>
+<td>Use df, inode checks, docker system df -v, and log-file
+inspection.</td>
+</tr>
+<tr class="odd">
+<td>Unhealthy service</td>
+<td>Read health-check history and test the check command manually.</td>
+</tr>
+<tr class="even">
+<td>Permission failure</td>
+<td>Compare container UID/GID, mount ownership, mode, and read-only
+settings.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Deliverable —</strong> Write an incident report with symptom,
+timeline, evidence, root cause, corrective action, validation, and
+prevention. Do not solve by disabling TLS, running privileged, or
+granting world-writable permissions.</p>
+<h1 id="final-practical-exam">Final practical exam</h1>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Section</strong></th>
+<th><strong>Points</strong></th>
+<th><strong>Evidence</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Container lifecycle</td>
+<td>10</td>
+<td>Create, inspect, stop/start, logs, exec, and cleanup</td>
+</tr>
+<tr class="even">
+<td>Images and builds</td>
+<td>15</td>
+<td>Reproducible Dockerfile, cache awareness, non-root runtime</td>
+</tr>
+<tr class="odd">
+<td>Storage</td>
+<td>10</td>
+<td>Named-volume persistence plus tested backup/restore</td>
+</tr>
+<tr class="even">
+<td>Networking</td>
+<td>15</td>
+<td>Private service DNS and deliberate published-port binding</td>
+</tr>
+<tr class="odd">
+<td>Compose</td>
+<td>15</td>
+<td>Validated multi-service application with health checks</td>
+</tr>
+<tr class="even">
+<td>Security</td>
+<td>15</td>
+<td>Least privilege, secrets handling, read-only design</td>
+</tr>
+<tr class="odd">
+<td>Operations</td>
+<td>10</td>
+<td>Resource limits, bounded logs, evidence-based troubleshooting</td>
+</tr>
+<tr class="even">
+<td>Documentation</td>
+<td>10</td>
+<td>README, validation results, rollback and cleanup instructions</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th><strong>PASS STANDARD</strong> 80/100 overall, with no critical
+security failure. Critical failures include committing a real secret,
+exposing Docker TCP/2375 without protection, using privileged as a
+generic fix, or deleting unknown volumes.</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<h1 id="command-reference">Command reference</h1>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Task</strong></th>
+<th><strong>Command</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Running containers</td>
+<td>docker ps</td>
+</tr>
+<tr class="even">
+<td>All containers</td>
+<td>docker ps -a</td>
+</tr>
+<tr class="odd">
+<td>Images</td>
+<td>docker images</td>
+</tr>
+<tr class="even">
+<td>Logs</td>
+<td>docker logs --tail 100 NAME</td>
+</tr>
+<tr class="odd">
+<td>Enter container</td>
+<td>docker exec -it NAME sh</td>
+</tr>
+<tr class="even">
+<td>Inspect</td>
+<td>docker inspect NAME</td>
+</tr>
+<tr class="odd">
+<td>Processes</td>
+<td>docker top NAME</td>
+</tr>
+<tr class="even">
+<td>Resource usage</td>
+<td>docker stats --no-stream</td>
+</tr>
+<tr class="odd">
+<td>Networks</td>
+<td>docker network ls</td>
+</tr>
+<tr class="even">
+<td>Volumes</td>
+<td>docker volume ls</td>
+</tr>
+<tr class="odd">
+<td>Compose validate</td>
+<td>docker compose config</td>
+</tr>
+<tr class="even">
+<td>Compose start</td>
+<td>docker compose up -d</td>
+</tr>
+<tr class="odd">
+<td>Compose remove</td>
+<td>docker compose down</td>
+</tr>
+<tr class="even">
+<td>Disk accounting</td>
+<td>docker system df -v</td>
+</tr>
+<tr class="odd">
+<td>Daemon logs</td>
+<td>sudo journalctl -u docker --since "-15 minutes"</td>
+</tr>
+</tbody>
+</table>
+<h1 id="troubleshooting-decision-path">Troubleshooting decision
+path</h1>
+<p><strong>1. Is the daemon available? —</strong> systemctl status
+docker; docker info</p>
+<p><strong>2. Does the container exist? —</strong> docker ps -a --filter
+name=NAME</p>
+<p><strong>3. Why did it exit? —</strong> docker inspect State and
+docker logs</p>
+<p><strong>4. Is the port published correctly? —</strong> docker port,
+inspect PortBindings, and ss -lntp</p>
+<p><strong>5. Can containers resolve each other? —</strong> inspect
+network membership and test service DNS from a peer container</p>
+<p><strong>6. Is storage mounted as expected? —</strong> inspect Mounts,
+host ownership, permissions, and read-only flags</p>
+<p><strong>7. Is the application healthy? —</strong> inspect
+State.Health and run the health command manually</p>
+<p><strong>8. Is the host constrained? —</strong> df -h, df -i, free -h,
+docker stats, docker system df -v</p>
+<p><strong>9. Is TLS inspection involved? —</strong> inspect the
+presented issuer; trust only the approved company CA; never bypass
+verification</p>
+<h1 id="recommended-study-schedule">Recommended study schedule</h1>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Week</strong></th>
+<th><strong>Focus</strong></th>
+<th><strong>Outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Modules 1–3</td>
+<td>Fluent container and image lifecycle</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Modules 4–5</td>
+<td>Persistent data and service networking</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Module 6</td>
+<td>Reproducible and efficient image builds</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Module 7</td>
+<td>Multi-container applications with Compose</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Modules 8–9</td>
+<td>Troubleshooting, health, limits, and security</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Modules 10–11</td>
+<td>Daemon operations, registries, BuildKit, contexts</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Module 12</td>
+<td>Desired-state orchestration concepts</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Module 13</td>
+<td>Complete all capstones and final exam</td>
+</tr>
+</tbody>
+</table></article>
+  </main>
+  <button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top">↑</button>
+  <script src="manual.js"></script>
+</body>
+</html>
