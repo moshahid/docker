@@ -1,5 +1,7 @@
 # Unix Username Generator — Docker
 
+The username format is the first initial plus the full last name, with no numbers or extra characters. Example: `Mohamed Shahid` becomes `mshahid`.
+
 ## Start with Docker Compose
 
 ```bash
