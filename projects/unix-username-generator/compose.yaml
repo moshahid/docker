@@ -1,0 +1,16 @@
+services:
+  username-generator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: unix-username-generator:1.0
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
