@@ -1,6 +1,6 @@
 # Unix Username Generator — Docker
 
-The username format is the first initial plus the full last name, with no numbers or extra characters. Example: `Mohamed Shahid` becomes `mshahid`.
+The username format is the first initial plus the full last name, with no numbers or extra characters. Choose a maximum length from 3 to 32 characters; shorter names remain unchanged. Example: `Mohamed Shahid` becomes `mshahid`.
 
 ## Start with Docker Compose
 
